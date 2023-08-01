@@ -8,13 +8,14 @@
 import Foundation
 import Combine
 
-@MainActor
-class DetailsViewModel: ObservableObject, ViewModelProtocol {
+class DetailsViewModel: ObservableObject {
     
     @Published var shouldNavigate: Bool = false
     var cancellables = Set<AnyCancellable>()
+    let fruit: Fruit
     
-    init() {
+    init(fruit: Fruit) {
+        self.fruit = fruit
         areAllButtonsValidPublisher
             .assign(to: \.shouldNavigate, on: self)
             .store(in: &cancellables)

@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct MemoryCheckApp: App {
-//    @StateObject var viewModel = ContentViewModel()
+    @StateObject var viewModel = ContentViewModel()
     
     var body: some Scene {
         WindowGroup {
-//            ContentView(viewModel: viewModel)
-            ButtonsView()
+            ContentView(viewModel: viewModel)
+//            ButtonsView()
         }
     }
 }

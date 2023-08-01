@@ -9,17 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var viewModel: ContentViewModel
+    @State var path = NavigationPath()
     
     var body: some View {
         
-        NavigationView {
-            
-            NavigationLink(destination: DetailsView(viewModel: DetailsViewModel()), isActive: $viewModel.shouldNavigate) {
-                buttonsStack
-//                   ButtonsStack(viewModel: viewModel)
+        NavigationStack(path: $path) {
+            VStack {
+                List(viewModel.fruits, id: \.self) { fruit in
+                    NavigationLink(value: fruit) {
+                        Text(fruit.name)
+                            .font(.body).bold()
+                            .foregroundColor(fruit.color)
+                    }
                 }
+                buttonsStack
+            }
+            .navigationDestination(for: Fruit.self, destination: { fruit in
+                if viewModel.shouldNavigate {
+                    DetailsView(viewModel: DetailsViewModel(fruit: fruit), path: $path)
+                }
+            })
             .onAppear {
                 viewModel.resetScreen()
+            }
+            .onDisappear {
+                viewModel.cancellables.removeAll()
             }
             
         }

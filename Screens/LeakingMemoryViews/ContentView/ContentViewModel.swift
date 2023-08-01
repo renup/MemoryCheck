@@ -24,12 +24,12 @@ enum RegularButton: CaseIterable {
 
 protocol ViewModelProtocol {}
 
-@MainActor
-class ContentViewModel: ObservableObject, ViewModelProtocol {
+class ContentViewModel: ObservableObject {
     
     @Published var shouldNavigate: Bool = false
     var cancellables: Set<AnyCancellable> = []
-    
+    @Published var fruits = Fruit.mock
+
     init() {
         areAllButtonsValidPublisher
             .assign(to: \.shouldNavigate, on: self)

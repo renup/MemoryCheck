@@ -9,19 +9,44 @@ import SwiftUI
 
 struct DetailsView: View {
     @StateObject var viewModel: DetailsViewModel
-    
+    @Binding var path: NavigationPath
+   
     var body: some View {
-        VStack {
-            NavigationView {
-                NavigationLink(destination: DetailsView(viewModel: DetailsViewModel()), isActive: $viewModel.shouldNavigate) {
+        ZStack {
+            viewModel.fruit.color
+                .ignoresSafeArea()
+            
+            VStack {
+                NavigationLink(value: viewModel.fruit) {
+                    Text(viewModel.fruit.name)
+                        .font(.largeTitle).bold()
                     buttonsStack
-                    }
-                .onAppear {
-                    viewModel.resetScreen()
                 }
             }
-            
+            .navigationDestination(for: Fruit.self) { fruit in
+                if viewModel.shouldNavigate {
+                    let selectedFruit = Fruit.mock.randomElement()
+                    DetailsView(viewModel: DetailsViewModel(fruit: selectedFruit!), path: $path)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        path.removeLast(path.count)
+                    } label: {
+                        Image(systemName: "house")
+                    }
+                }
+            }
+            .onAppear {
+                viewModel.resetScreen()
+            }
+            .onDisappear {
+                viewModel.cancellables.removeAll()
+            }
+           
         }
+        
     }
     
     private var buttonsStack: some View {
@@ -39,7 +64,9 @@ struct DetailsView: View {
 }
 
 struct DetailsView_Previews: PreviewProvider {
+    @State static var path = NavigationPath()
+    
     static var previews: some View {
-        DetailsView(viewModel: DetailsViewModel())
+        DetailsView(viewModel: DetailsViewModel(fruit: Fruit.mock.first!), path: $path)
     }
 }
