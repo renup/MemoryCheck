@@ -12,6 +12,7 @@ import SwiftUI
 class ButtonsViewModel: ObservableObject {
     @Published var shouldNavigate: Bool = true
     var cancellables = Set<AnyCancellable>()
+    
     // Here is the example of cofig as individual published properties
     @Published var strokeTitle: String = "Stroke button title"
     // shouldn't have it here.. this can come from some other design system component
@@ -21,7 +22,6 @@ class ButtonsViewModel: ObservableObject {
     @Published var strokeIcon: String? = "cloud.snow.fill"
     var fruits = Fruit.mock
     
-    // here is the example of config in struct
     @Published var solidButtonTitle = "Solid Button title"
 
     init() {

@@ -14,16 +14,6 @@ extension String {
     }
 }
 
-enum PillButton: CaseIterable {
-    case solidButton, strokeButton
-}
-
-enum RegularButton: CaseIterable {
-    case solidButton1, strokeButton1
-}
-
-protocol ViewModelProtocol {}
-
 class ContentViewModel: ObservableObject {
     
     @Published var shouldNavigate: Bool = false
@@ -38,7 +28,6 @@ class ContentViewModel: ObservableObject {
     
     
     let solidButtonVM = SolidButtonViewModel(title: "Solid button title", textColor: .white, bgColor: .green)
-    
     
     let strokeButtonVM = StrokeButtonViewModel(title: "Stroke button title", textColor: .purple)
     

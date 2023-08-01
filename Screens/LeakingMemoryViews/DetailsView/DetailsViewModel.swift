@@ -24,7 +24,6 @@ class DetailsViewModel: ObservableObject {
     
     let solidButtonVM = SolidButtonViewModel(title: "Solid button title in DetailsView", textColor: .white, bgColor: .blue)
     
-    
     let strokeButtonVM = StrokeButtonViewModel(title: "Stroke button title in DetailsView", textColor: .black)
     
     private var solidButtonValidPublisher: AnyPublisher<Bool, Never> {

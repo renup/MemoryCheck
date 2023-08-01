@@ -21,8 +21,6 @@ class ButtonsDetailsViewModel: ObservableObject {
     @Published var storkeIsHugging: Bool = true
     @Published var strokeIcon: String? = "cloud.snow.fill"
     @Published var solidTitle = "Solid button title"
-    // here is the example of config in struct
-//    @Published var solidButtonVM = SolidButtonViewModel1(title: "Solid button title", textColor: .white, bgColor: .blue)
 
     let fruit: Fruit
     
