@@ -19,7 +19,8 @@ class ButtonsViewModel: ObservableObject {
     @Published var strokeSize: CGFloat = 30
     @Published var storkeIsHugging: Bool = true
     @Published var strokeIcon: String? = "cloud.snow.fill"
-   
+    var fruits = Fruit.mock
+    
     // here is the example of config in struct
     @Published var solidButtonTitle = "Solid Button title"
 

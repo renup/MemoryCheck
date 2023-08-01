@@ -10,12 +10,26 @@ import SwiftUI
 struct ButtonsView: View {
     
     @StateObject var viewModel = ButtonsViewModel()
+    @State var path = NavigationPath()
     
     var body: some View {
-        NavigationView {
-            NavigationLink(destination: ButtonDetailsView(), isActive: $viewModel.shouldNavigate) {
+        NavigationStack(path: $path) {
+            
+            VStack {
+                List(viewModel.fruits, id: \.self) { fruit in
+                    NavigationLink(value: fruit) {
+                        Text(fruit.name)
+                            .font(.body).bold()
+                            .foregroundColor(fruit.color)
+                    }
+                }
                 buttonsStack
             }
+            .navigationDestination(for: Fruit.self, destination: { fruit in
+                if viewModel.shouldNavigate {
+                    ButtonDetailsView(viewModel: ButtonsDetailsViewModel(fruit: fruit), path: $path)
+                }
+            })
             .onDisappear {
                 viewModel.cancellables.removeAll()
             }

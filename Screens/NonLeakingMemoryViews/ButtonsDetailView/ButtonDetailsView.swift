@@ -8,23 +8,41 @@
 import SwiftUI
 
 struct ButtonDetailsView: View {
-    @StateObject var viewModel = ButtonsDetailsViewModel()
+    @StateObject var viewModel: ButtonsDetailsViewModel
+    @Binding var path: NavigationPath
     
     var body: some View {
-        NavigationView {
-            
-            NavigationLink(destination: ButtonDetailsView(viewModel: ButtonsDetailsViewModel()), isActive: $viewModel.shouldNavigate) {
-                buttonsStack
-            }
-            .onDisappear {
-                viewModel.cancellables.removeAll()
-            }
-            .onAppear {
-                viewModel.resetScreen()
-            }
-            
+        
+        ZStack {
+            viewModel.fruit.color
+                .ignoresSafeArea()
+            NavigationLink(value: viewModel.fruit) {
+                VStack {
+                    Text(viewModel.fruit.name)
+                        .font(.largeTitle).bold()
+                        .padding()
+                    buttonsStack
+                }
+            }            
         }
+        .onDisappear {
+            viewModel.cancellables.removeAll()
+        }
+        .onAppear {
+            viewModel.resetScreen()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    path.removeLast(path.count)
+                } label: {
+                    Image(systemName: "house")
+                }
+            }
+        }
+        
     }
+    
     private var buttonsStack: some View {
         VStack(spacing: 10) {
             SolidButton1(title: $viewModel.solidTitle) {
@@ -40,7 +58,9 @@ struct ButtonDetailsView: View {
 }
 
 struct ButtonDetailsView_Previews: PreviewProvider {
+    @State static var path = NavigationPath()
+    
     static var previews: some View {
-        ButtonDetailsView(viewModel: ButtonsDetailsViewModel())
+        ButtonDetailsView(viewModel: ButtonsDetailsViewModel(fruit: Fruit.mock.first!), path: $path)
     }
 }
